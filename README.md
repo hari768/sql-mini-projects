@@ -29,5 +29,30 @@ Analyze Swiggy/Zomato style food delivery orders using SQL.
 - SQL Project File
 - Output Screenshots
 
-## Author
-Hari Prasad
+
+
+
+
+
+
+
+---
+
+# Food Order Management System(PROJECT 2)
+
+A beginner SQL mini project built using PostgreSQL.
+
+## Concepts Used
+- Primary Key
+- Foreign Key
+- Constraints
+- One-to-Many Relationships
+- ON DELETE CASCADE
+- INSERT
+- UPDATE
+- DELETE
+- SELECT Queries
+
+## Tools Used
+- PostgreSQL
+- pgAdmin 4
