@@ -1,0 +1,239 @@
+-- =====================================================
+-- MINI PROJECT 002 : FOOD ORDER MANAGEMENT SYSTEM
+-- Author : Hari Prasad
+-- Concepts Used :
+-- Primary Key
+-- Foreign Key
+-- One-to-Many Relationship
+-- Constraints
+-- ON DELETE CASCADE
+-- =====================================================
+
+
+-- =====================================================
+-- STEP 1 : CREATE DATABASE
+-- =====================================================
+
+CREATE DATABASE food_order_management;
+
+
+-- =====================================================
+-- STEP 2 : CREATE CUSTOMERS TABLE
+-- =====================================================
+
+CREATE TABLE customers(
+
+    customer_id SERIAL PRIMARY KEY,
+
+    customer_name VARCHAR(50) NOT NULL,
+
+    city VARCHAR(50) NOT NULL,
+
+    phone_number VARCHAR(15) UNIQUE,
+
+    email VARCHAR(50) UNIQUE,
+
+    gender VARCHAR(20) NOT NULL,
+
+    membership_type VARCHAR(20) NOT NULL,
+
+    signup_date DATE DEFAULT CURRENT_DATE NOT NULL
+
+);
+
+
+-- =====================================================
+-- STEP 3 : INSERT DATA INTO CUSTOMERS TABLE
+-- =====================================================
+
+INSERT INTO customers
+(customer_name, city, phone_number, email, gender, membership_type, signup_date)
+
+VALUES
+
+('Hari', 'Hyderabad', '9876543210', 'hari@gmail.com', 'Male', 'Gold', '2025-01-10'),
+
+('Sneha', 'Bangalore', '9876543211', 'sneha@gmail.com', 'Female', 'Silver', '2025-02-12'),
+
+('Rahul', 'Vizag', '9876543212', 'rahul@gmail.com', 'Male', 'Regular', '2025-03-15'),
+
+('Divya', 'Chennai', '9876543213', 'divya@gmail.com', 'Female', 'Gold', '2025-04-20');
+
+
+-- =====================================================
+-- STEP 4 : CREATE RESTAURANTS TABLE
+-- =====================================================
+
+CREATE TABLE restaurants(
+
+    restaurant_id SERIAL PRIMARY KEY,
+
+    restaurant_name VARCHAR(100) NOT NULL,
+
+    city VARCHAR(50) NOT NULL,
+
+    rating DECIMAL(2,1) CHECK (rating <= 5),
+
+    cuisine_type VARCHAR(50),
+
+    opening_time TIME,
+
+    delivery_time INT
+
+);
+
+
+-- =====================================================
+-- STEP 5 : INSERT DATA INTO RESTAURANTS TABLE
+-- =====================================================
+
+INSERT INTO restaurants
+(restaurant_name, city, rating, cuisine_type, opening_time, delivery_time)
+
+VALUES
+
+('Paradise Biryani', 'Hyderabad', 4.5, 'Biryani', '10:00', 35),
+
+('Burger King', 'Bangalore', 4.2, 'Fast Food', '11:00', 25),
+
+('KFC', 'Vizag', 4.0, 'Fast Food', '10:30', 30),
+
+('Pizza Hut', 'Chennai', 4.3, 'Pizza', '11:30', 40);
+
+
+-- =====================================================
+-- STEP 6 : CREATE ORDERS TABLE
+-- =====================================================
+
+CREATE TABLE orders(
+
+    order_id SERIAL PRIMARY KEY,
+
+    customer_id INT,
+
+    restaurant_id INT,
+
+    food_item VARCHAR(100) NOT NULL,
+
+    quantity INT,
+
+    order_amount INT CHECK(order_amount > 0),
+
+    payment_mode VARCHAR(20),
+
+    delivery_partner VARCHAR(50),
+
+    customer_rating INT CHECK(customer_rating <= 5),
+
+    delivery_time_minutes INT,
+
+    order_status VARCHAR(30) DEFAULT 'Preparing',
+
+    order_date DATE,
+
+
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(customer_id)
+    ON DELETE CASCADE,
+
+
+    FOREIGN KEY(restaurant_id)
+    REFERENCES restaurants(restaurant_id)
+    ON DELETE CASCADE
+
+);
+
+
+-- =====================================================
+-- STEP 7 : INSERT DATA INTO ORDERS TABLE
+-- =====================================================
+
+INSERT INTO orders
+(customer_id, restaurant_id, food_item, quantity, order_amount,
+payment_mode, delivery_partner, customer_rating,
+delivery_time_minutes, order_status, order_date)
+
+VALUES
+
+(1, 1, 'Chicken Biryani', 2, 640, 'UPI', 'Ravi', 5, 32, 'Delivered', '2025-05-20'),
+
+(2, 2, 'Veg Burger', 1, 180, 'Card', 'Akhil', 4, 28, 'Preparing', '2025-05-21'),
+
+(3, 3, 'Chicken Popcorn', 2, 500, 'Cash', 'Suresh', 4, 35, 'Delivered', '2025-05-22'),
+
+(4, 4, 'Cheese Pizza', 1, 420, 'UPI', 'Naveen', 3, 45, 'Cancelled', '2025-05-23'),
+
+(1, 2, 'French Fries', 1, 150, 'Card', 'Akhil', 5, 22, 'Delivered', '2025-05-24');
+
+
+-- =====================================================
+-- STEP 8 : VIEW ALL TABLES
+-- =====================================================
+
+SELECT * FROM customers;
+
+SELECT * FROM restaurants;
+
+SELECT * FROM orders;
+
+
+-- =====================================================
+-- STEP 9 : SHOW ORDERS ABOVE ₹300
+-- =====================================================
+
+SELECT *
+FROM orders
+WHERE order_amount > 300;
+
+
+-- =====================================================
+-- STEP 10 : SHOW GOLD MEMBERSHIP CUSTOMERS
+-- =====================================================
+
+SELECT *
+FROM customers
+WHERE membership_type = 'Gold';
+
+
+-- =====================================================
+-- STEP 11 : SHOW UPI PAYMENT ORDERS
+-- =====================================================
+
+SELECT *
+FROM orders
+WHERE payment_mode = 'UPI';
+
+
+-- =====================================================
+-- STEP 12 : UPDATE ORDER STATUS
+-- =====================================================
+
+UPDATE orders
+
+SET order_status = 'Delivered'
+
+WHERE order_id = 2;
+
+
+-- =====================================================
+-- STEP 13 : DELETE CUSTOMER
+-- ON DELETE CASCADE WILL DELETE RELATED ORDERS
+-- =====================================================
+
+DELETE FROM customers
+
+WHERE customer_id = 3;
+
+
+-- =====================================================
+-- STEP 14 : FINAL TABLES
+-- =====================================================
+
+SELECT * FROM customers;
+
+SELECT * FROM orders;
+
+
+-- =====================================================
+-- MINI PROJECT COMPLETED
+-- =====================================================
