@@ -1,5 +1,5 @@
 
-# SQL Mini Projects 1
+# SQL Mini Projects 
 
 This repository contains real-world SQL mini projects created for practice and portfolio building.
 
@@ -38,7 +38,7 @@ Analyze Swiggy/Zomato style food delivery orders using SQL.
 
 ---
 
-# Food Order Management System(PROJECT 2)
+#  Project-2 :Food Order Management System
 
 A beginner SQL mini project built using PostgreSQL.
 
