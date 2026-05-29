@@ -60,8 +60,7 @@ A beginner SQL mini project built using PostgreSQL.
 
 
 
-
-# Amazon E-Commerce Analytics
+**Project 1 :Amazon E-Commerce Analytics**
 
 ## Project Overview
 
