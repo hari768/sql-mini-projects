@@ -1,0 +1,328 @@
+-- =====================================================
+-- MINI PROJECT 003 : AMAZON E-COMMERCE ANALYTICS
+-- Author : Hari chandra Prasad
+-- Concepts Covered:
+-- INNER JOIN
+-- LEFT JOIN
+-- RIGHT JOIN
+-- FULL OUTER JOIN
+-- ALIAS
+-- MULTI TABLE JOINS
+-- =====================================================
+
+-- =====================================================
+-- CREATE DATABASE
+-- =====================================================
+
+CREATE DATABASE amazon_ecommerce_analytics;
+
+-- Open Query Tool inside amazon_ecommerce_analytics
+
+
+-- =====================================================
+-- TABLE 1 : CUSTOMERS
+-- =====================================================
+
+CREATE TABLE customers(
+
+    customer_id SERIAL PRIMARY KEY,
+
+    customer_name VARCHAR(50) NOT NULL,
+
+    city VARCHAR(50) NOT NULL,
+
+    membership_type VARCHAR(20) NOT NULL
+
+);
+
+INSERT INTO customers
+(customer_name, city, membership_type)
+
+VALUES
+
+('Hari', 'Hyderabad', 'Gold'),
+
+('Sneha', 'Bangalore', 'Silver'),
+
+('Rahul', 'Vizag', 'Regular'),
+
+('Divya', 'Chennai', 'Gold'),
+
+('Kiran', 'Mumbai', 'Silver');
+
+
+-- =====================================================
+-- TABLE 2 : CATEGORIES
+-- =====================================================
+
+CREATE TABLE categories(
+
+    category_id SERIAL PRIMARY KEY,
+
+    category_name VARCHAR(50) NOT NULL
+
+);
+
+INSERT INTO categories
+(category_name)
+
+VALUES
+
+('Electronics'),
+
+('Fashion'),
+
+('Home Appliances'),
+
+('Books');
+
+
+-- =====================================================
+-- TABLE 3 : PRODUCTS
+-- =====================================================
+
+CREATE TABLE products(
+
+    product_id SERIAL PRIMARY KEY,
+
+    product_name VARCHAR(100) NOT NULL,
+
+    category_id INT,
+
+    price INT NOT NULL,
+
+    FOREIGN KEY(category_id)
+    REFERENCES categories(category_id)
+
+);
+
+INSERT INTO products
+(product_name, category_id, price)
+
+VALUES
+
+('Laptop', 1, 55000),
+
+('Mobile', 1, 25000),
+
+('T-Shirt', 2, 800),
+
+('Refrigerator', 3, 45000),
+
+('SQL Book', 4, 500);
+
+
+-- =====================================================
+-- TABLE 4 : ORDERS
+-- =====================================================
+
+CREATE TABLE orders(
+
+    order_id INT PRIMARY KEY,
+
+    customer_id INT,
+
+    product_id INT,
+
+    quantity INT NOT NULL,
+
+    order_date DATE NOT NULL,
+
+    FOREIGN KEY(customer_id)
+    REFERENCES customers(customer_id),
+
+    FOREIGN KEY(product_id)
+    REFERENCES products(product_id)
+
+);
+
+INSERT INTO orders
+(order_id, customer_id, product_id, quantity, order_date)
+
+VALUES
+
+(101, 1, 1, 1, '2025-05-20'),
+
+(102, 2, 2, 1, '2025-05-21'),
+
+(103, 1, 5, 2, '2025-05-22'),
+
+(104, 4, 4, 1, '2025-05-23'),
+
+(105, 3, 3, 3, '2025-05-24');
+
+
+-- =====================================================
+-- TASK 1 : CUSTOMER ORDER DETAILS
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    o.order_id,
+    o.order_date
+
+FROM customers c
+
+INNER JOIN orders o
+
+ON c.customer_id = o.customer_id;
+
+
+-- =====================================================
+-- TASK 2 : PRODUCT CATEGORY DETAILS
+-- =====================================================
+
+SELECT
+    p.product_name,
+    c.category_name
+
+FROM products p
+
+INNER JOIN categories c
+
+ON p.category_id = c.category_id;
+
+
+-- =====================================================
+-- TASK 3 : CUSTOMER PURCHASE ANALYSIS
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    p.product_name,
+    o.quantity
+
+FROM customers c
+
+INNER JOIN orders o
+
+ON c.customer_id = o.customer_id
+
+INNER JOIN products p
+
+ON o.product_id = p.product_id;
+
+
+-- =====================================================
+-- TASK 4 : FULL BUSINESS REPORT
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    p.product_name,
+    cat.category_name
+
+FROM customers c
+
+INNER JOIN orders o
+
+ON c.customer_id = o.customer_id
+
+INNER JOIN products p
+
+ON o.product_id = p.product_id
+
+INNER JOIN categories cat
+
+ON p.category_id = cat.category_id;
+
+
+-- =====================================================
+-- TASK 5 : ALL CUSTOMERS EVEN IF NO ORDERS
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    o.order_id
+
+FROM customers c
+
+LEFT JOIN orders o
+
+ON c.customer_id = o.customer_id;
+
+
+-- =====================================================
+-- TASK 6 : ALL ORDERS EVEN IF CUSTOMER MISSING
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    o.order_id
+
+FROM customers c
+
+RIGHT JOIN orders o
+
+ON c.customer_id = o.customer_id;
+
+
+-- =====================================================
+-- TASK 7 : FULL OUTER JOIN
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    o.order_id
+
+FROM customers c
+
+FULL OUTER JOIN orders o
+
+ON c.customer_id = o.customer_id;
+
+
+-- =====================================================
+-- TASK 8 : GOLD MEMBERS ANALYSIS
+-- =====================================================
+
+SELECT
+    c.customer_name,
+    p.product_name
+
+FROM customers c
+
+INNER JOIN orders o
+
+ON c.customer_id = o.customer_id
+
+INNER JOIN products p
+
+ON o.product_id = p.product_id
+
+WHERE c.membership_type = 'Gold';
+
+
+-- =====================================================
+-- TASK 9 : PRODUCTS ABOVE ₹10,000
+-- =====================================================
+
+SELECT
+    product_name,
+    price
+
+FROM products
+
+WHERE price > 10000;
+
+
+-- =====================================================
+-- TASK 10 : ELECTRONICS PRODUCTS
+-- =====================================================
+
+SELECT
+    p.product_name,
+    c.category_name
+
+FROM products p
+
+INNER JOIN categories c
+
+ON p.category_id = c.category_id
+
+WHERE c.category_name = 'Electronics';
+
+
+-- =====================================================
+-- MINI PROJECT 003 COMPLETED
+-- =====================================================
