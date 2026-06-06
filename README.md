@@ -19,7 +19,7 @@ The database contains customer, product, order, and review information which is 
 
 ## 🗄 Database Structure
 
-![Database Structure](images/shopeasy_database.png)
+![Database Structure](database.png.png)
 
 ---
 
@@ -34,13 +34,13 @@ The database contains customer, product, order, and review information which is 
 7. Identify Top Rated Products
 8. Calculate Discount Based On Order Value
 
-![Business Questions](images/shopeasy_tasks.png)
+![Business Questions](imagesshopeasy_tasks.png.png)
 
 ---
 
 ## 📈 Analysis Results
 
-![Analysis Results](images/shopeasy_results.png)
+![Analysis Results](imagesshopeasy_results.png.png)
 
 ---
 
